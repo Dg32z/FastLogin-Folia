@@ -4,8 +4,11 @@ name: ${project.parent.name}
 version: ${project.version}-${git.commit.id.abbrev}
 main: ${project.groupId}.${project.artifactId}.${project.name}
 
+# make fastLogin support folia
+folia-supported: true
+
 # meta data for plugin managers
-authors: [games647, 'https://github.com/games647/FastLogin/graphs/contributors']
+authors: [games647, Dg32z_, 'https://github.com/games647/FastLogin/graphs/contributors']
 description: |
     ${project.description}
 website: ${project.url}
