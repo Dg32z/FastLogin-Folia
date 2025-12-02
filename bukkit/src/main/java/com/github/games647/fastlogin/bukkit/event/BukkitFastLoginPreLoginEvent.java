@@ -47,6 +47,10 @@ public class BukkitFastLoginPreLoginEvent extends Event implements FastLoginPreL
         this.profile = profile;
     }
 
+    public static HandlerList getHandlerList() {
+        return HANDLERS;
+    }
+
     @Override
     public String getUsername() {
         return username;
@@ -64,10 +68,6 @@ public class BukkitFastLoginPreLoginEvent extends Event implements FastLoginPreL
 
     @Override
     public @NotNull HandlerList getHandlers() {
-        return HANDLERS;
-    }
-
-    public static HandlerList getHandlerList() {
         return HANDLERS;
     }
 }

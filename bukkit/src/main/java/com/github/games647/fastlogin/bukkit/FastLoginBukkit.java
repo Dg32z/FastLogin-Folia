@@ -27,8 +27,8 @@ package com.github.games647.fastlogin.bukkit;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import com.github.games647.fastlogin.bukkit.command.CrackedCommand;
-import com.github.games647.fastlogin.bukkit.command.PremiumCommand;
 import com.github.games647.fastlogin.bukkit.command.DeleteCommand;
+import com.github.games647.fastlogin.bukkit.command.PremiumCommand;
 import com.github.games647.fastlogin.bukkit.listener.ConnectionListener;
 import com.github.games647.fastlogin.bukkit.listener.PaperCacheListener;
 import com.github.games647.fastlogin.bukkit.listener.protocollib.ProtocolLibListener;
@@ -77,11 +77,10 @@ public class FastLoginBukkit extends JavaPlugin implements PlatformPlugin<Comman
     @Getter
     private final Map<UUID, PremiumStatus> premiumPlayers = new ConcurrentHashMap<>();
     private final Logger logger;
-
+    private final BukkitScheduler scheduler;
     private boolean serverStarted;
     @Getter
     private BungeeManager bungeeManager;
-    private final BukkitScheduler scheduler;
     @Getter
     private FastLoginCore<Player, CommandSender, FastLoginBukkit> core;
     @Getter
@@ -142,7 +141,7 @@ public class FastLoginBukkit extends JavaPlugin implements PlatformPlugin<Comman
         }
 
         //delay dependency setup because we load the plugin very early where plugins are initialized yet
-       Scheduler.getGlobalRegionScheduler().runTaskLater(this, new DelayedAuthHook(this), 5L);
+        Scheduler.getGlobalRegionScheduler().runTaskLater(this, new DelayedAuthHook(this), 5L);
 
         pluginManager.registerEvents(new ConnectionListener(this), this);
 
@@ -254,7 +253,7 @@ public class FastLoginBukkit extends JavaPlugin implements PlatformPlugin<Comman
      *     case UNKNOWN:
      *         // no record about this player
      * }
-     * }
+     *}
      *
      * @param onlinePlayer player that is currently online player (play state)
      * @return the online status or unknown if an error happened, the player isn't online or BungeeCord doesn't send

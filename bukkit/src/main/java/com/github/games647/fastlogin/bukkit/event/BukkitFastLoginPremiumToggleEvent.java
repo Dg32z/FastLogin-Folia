@@ -48,6 +48,10 @@ public class BukkitFastLoginPremiumToggleEvent extends Event implements FastLogi
         this.reason = reason;
     }
 
+    public static HandlerList getHandlerList() {
+        return HANDLERS;
+    }
+
     @Override
     public StoredProfile getProfile() {
         return profile;
@@ -67,10 +71,6 @@ public class BukkitFastLoginPremiumToggleEvent extends Event implements FastLogi
 
     @Override
     public @NotNull HandlerList getHandlers() {
-        return HANDLERS;
-    }
-
-    public static HandlerList getHandlerList() {
         return HANDLERS;
     }
 }

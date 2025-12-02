@@ -79,21 +79,15 @@ public class VerifyResponseTask implements Runnable {
             + "order to work this security feature, the actual client IP needs to be forwarding "
             + "(keyword IP forwarding). This process will also be useful for other server "
             + "features like IP banning, so that it doesn't ban the proxy IP.";
-
+    private static Method encryptMethod;
+    private static Method encryptKeyMethod;
+    private static Method cipherMethod;
     private final FastLoginBukkit plugin;
     private final PacketEvent packetEvent;
     private final KeyPair serverKey;
-
     private final Player player;
-
     private final BukkitLoginSession session;
-
     private final byte[] sharedSecret;
-
-    private static Method encryptMethod;
-    private static Method encryptKeyMethod;
-
-    private static Method cipherMethod;
 
     public VerifyResponseTask(FastLoginBukkit plugin, PacketEvent packetEvent,
                               Player player, BukkitLoginSession session,

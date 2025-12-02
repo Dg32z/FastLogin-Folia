@@ -47,6 +47,10 @@ public class BukkitFastLoginAutoLoginEvent extends Event implements FastLoginAut
         this.profile = profile;
     }
 
+    public static HandlerList getHandlerList() {
+        return HANDLERS;
+    }
+
     @Override
     public LoginSession getSession() {
         return session;
@@ -69,10 +73,6 @@ public class BukkitFastLoginAutoLoginEvent extends Event implements FastLoginAut
 
     @Override
     public @NotNull HandlerList getHandlers() {
-        return HANDLERS;
-    }
-
-    public static HandlerList getHandlerList() {
         return HANDLERS;
     }
 }

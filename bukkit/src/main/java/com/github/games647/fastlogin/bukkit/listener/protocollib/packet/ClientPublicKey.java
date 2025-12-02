@@ -36,6 +36,16 @@ public class ClientPublicKey {
     private final PublicKey key;
     private final byte[] signature;
 
+    public ClientPublicKey(Instant expiry, PublicKey key, byte[] signature) {
+        this.expiry = expiry;
+        this.key = key;
+        this.signature = signature;
+    }
+
+    public static ClientPublicKey of(Instant expiry, PublicKey key, byte[] signature) {
+        return new ClientPublicKey(expiry, key, signature);
+    }
+
     public Instant expiry() {
         return expiry;
     }
@@ -46,16 +56,6 @@ public class ClientPublicKey {
 
     public byte[] signature() {
         return signature;
-    }
-
-    public ClientPublicKey(Instant expiry, PublicKey key, byte[] signature) {
-        this.expiry = expiry;
-        this.key = key;
-        this.signature = signature;
-    }
-
-    public static ClientPublicKey of(Instant expiry, PublicKey key, byte[] signature) {
-        return new ClientPublicKey(expiry, key, signature);
     }
 
     public boolean isExpired(Instant verifyTimestamp) {

@@ -28,7 +28,6 @@ package com.github.games647.fastlogin.bukkit;
 import com.github.games647.fastlogin.bukkit.scheduler.functions.Scheduler;
 import com.github.games647.fastlogin.core.scheduler.AsyncScheduler;
 import lombok.Getter;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.slf4j.Logger;
 
@@ -40,7 +39,7 @@ public class BukkitScheduler extends AsyncScheduler {
     private final Executor syncExecutor;
 
     public BukkitScheduler(Plugin plugin, Logger logger) {
-        super(logger, command ->Scheduler.getAsyncScheduler().runTask(plugin, command));
+        super(logger, command -> Scheduler.getAsyncScheduler().runTask(plugin, command));
 
         syncExecutor = task -> Scheduler.getGlobalRegionScheduler().runTask(plugin, task);
     }

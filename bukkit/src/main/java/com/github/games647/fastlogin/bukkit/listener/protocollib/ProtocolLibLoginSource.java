@@ -123,9 +123,9 @@ class ProtocolLibLoginSource implements LoginSource {
     @Override
     public String toString() {
         return this.getClass().getSimpleName() + '{'
-            + "player=" + player
-            + ", random=" + random
-            + ", verifyToken=" + Arrays.toString(verifyToken)
-            + '}';
+                + "player=" + player
+                + ", random=" + random
+                + ", verifyToken=" + Arrays.toString(verifyToken)
+                + '}';
     }
 }

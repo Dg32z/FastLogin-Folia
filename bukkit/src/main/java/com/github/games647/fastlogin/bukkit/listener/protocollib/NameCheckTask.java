@@ -41,7 +41,7 @@ import java.security.PublicKey;
 import java.util.Random;
 
 public class NameCheckTask extends JoinManagement<Player, CommandSender, ProtocolLibLoginSource>
-    implements Runnable {
+        implements Runnable {
 
     private final FastLoginBukkit plugin;
     private final PacketEvent packetEvent;

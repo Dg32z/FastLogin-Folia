@@ -57,12 +57,7 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import java.net.InetSocketAddress;
-import java.security.InvalidKeyException;
-import java.security.KeyPair;
-import java.security.NoSuchAlgorithmException;
-import java.security.PublicKey;
-import java.security.SecureRandom;
-import java.security.SignatureException;
+import java.security.*;
 import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
@@ -101,6 +96,13 @@ public class ProtocolLibListener extends PacketAdapter {
                 .getAsynchronousManager()
                 .registerAsyncHandler(new ProtocolLibListener(plugin, antiBotService, verifyClientKeys))
                 .start();
+    }
+
+    private static Channel getChannel(Player player) {
+        NettyChannelInjector injector = (NettyChannelInjector) Accessors.getMethodAccessorOrNull(
+                TemporaryPlayerFactory.class, "getInjectorFromPlayer", Player.class
+        ).invoke(null, player);
+        return FuzzyReflection.getFieldValue(injector, Channel.class, true);
     }
 
     @Override
@@ -246,8 +248,8 @@ public class ProtocolLibListener extends PacketAdapter {
             clientKey = Optional.empty();
         } else {
             Optional<Optional<WrappedProfileKeyData>> profileKey = packet.getOptionals(
-                            BukkitConverters.getWrappedPublicKeyDataConverter()
-                    ).optionRead(0);
+                    BukkitConverters.getWrappedPublicKeyDataConverter()
+            ).optionRead(0);
 
             clientKey = profileKey.flatMap(Function.identity()).flatMap(data -> {
                 Instant expires = data.getExpireTime();
@@ -301,19 +303,13 @@ public class ProtocolLibListener extends PacketAdapter {
         return channel.attr(floodgateAttribute).get();
     }
 
-    private static Channel getChannel(Player player) {
-        NettyChannelInjector injector = (NettyChannelInjector) Accessors.getMethodAccessorOrNull(
-                        TemporaryPlayerFactory.class, "getInjectorFromPlayer", Player.class
-                ).invoke(null, player);
-        return FuzzyReflection.getFieldValue(injector, Channel.class, true);
-    }
-
     /**
      * Reimplementation of the tasks injected Floodgate in ProtocolLib that are not run due to a bug
-     * @see <a href="https://github.com/GeyserMC/Floodgate/issues/143">Issue Floodgate#143</a>
-     * @see <a href="https://github.com/GeyserMC/Floodgate/blob/5d5713ed9e9eeab0f4abdaa9cf5cd8619dc1909b/spigot/src/main/java/org/geysermc/floodgate/addon/data/SpigotDataHandler.java#L121-L175">Floodgate/SpigotDataHandler</a>
+     *
      * @param packetEvent the PacketEvent that won't be processed by Floodgate
      * @return false if the player was kicked
+     * @see <a href="https://github.com/GeyserMC/Floodgate/issues/143">Issue Floodgate#143</a>
+     * @see <a href="https://github.com/GeyserMC/Floodgate/blob/5d5713ed9e9eeab0f4abdaa9cf5cd8619dc1909b/spigot/src/main/java/org/geysermc/floodgate/addon/data/SpigotDataHandler.java#L121-L175">Floodgate/SpigotDataHandler</a>
      */
     private boolean processFloodgateTasks(PacketEvent packetEvent) {
         PacketContainer packet = packetEvent.getPacket();

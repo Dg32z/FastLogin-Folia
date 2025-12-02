@@ -31,7 +31,6 @@ import com.github.games647.fastlogin.bukkit.scheduler.functions.Scheduler;
 import com.github.games647.fastlogin.bukkit.task.FloodgateAuthTask;
 import com.github.games647.fastlogin.bukkit.task.ForceLoginTask;
 import com.github.games647.fastlogin.core.hooks.bedrock.FloodgateService;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -98,7 +97,7 @@ public class ConnectionListener implements Listener {
             String sessionId = plugin.getSessionId(player.spigot().getRawAddress());
             plugin.getLog().info("No on-going login session for player: {} with ID {}. ", player, sessionId);
             plugin.getLog().info("Setups using Minecraft proxies will start delayed "
-                + "when the command from the proxy is received");
+                    + "when the command from the proxy is received");
         } else {
             Runnable forceLoginTask = new ForceLoginTask(plugin.getCore(), player, session);
             Scheduler.getAsyncScheduler().runTask(plugin, forceLoginTask);

@@ -42,11 +42,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static com.github.games647.fastlogin.core.message.ChangePremiumMessage.CHANGE_CHANNEL;
@@ -57,14 +53,11 @@ public class BungeeManager {
 
     private static final String LEGACY_FILE_NAME = "proxy-whitelist.txt";
     private static final String FILE_NAME = "allowed-proxies.txt";
-
+    private final FastLoginBukkit plugin;
+    private final Collection<UUID> firedJoinEvents = new HashSet<>();
     //null if proxies allowed list is empty so bungeecord support is disabled
     private Set<UUID> proxyIds;
-
-    private final FastLoginBukkit plugin;
     private boolean enabled;
-
-    private final Collection<UUID> firedJoinEvents = new HashSet<>();
 
     public BungeeManager(FastLoginBukkit plugin) {
         this.plugin = plugin;
@@ -107,13 +100,13 @@ public class BungeeManager {
     }
 
     private boolean isProxySupported(String className, String fieldName)
-        throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
+            throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
         return Class.forName(className).getDeclaredField(fieldName).getBoolean(null);
     }
 
     private boolean isVelocityEnabled()
-        throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException, ClassNotFoundException,
-        NoSuchMethodException, InvocationTargetException {
+            throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException, ClassNotFoundException,
+            NoSuchMethodException, InvocationTargetException {
         try {
             Class<?> globalConfig = Class.forName("io.papermc.paper.configuration.GlobalConfiguration");
             Object global = globalConfig.getDeclaredMethod("get").invoke(null);

@@ -37,13 +37,10 @@ import de.st_ddt.crazylogin.databases.CrazyLoginDataDatabase;
 import de.st_ddt.crazylogin.listener.PlayerListener;
 import de.st_ddt.crazylogin.metadata.Authenticated;
 import lombok.var;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.Objects;
 import java.util.Optional;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 /**
  * GitHub: <a href="https://github.com/ST-DDT/CrazyLogin">...</a>
@@ -98,17 +95,17 @@ public class CrazyLoginHook implements AuthPlugin<Player> {
                 callback.setCallBack(Optional.of(playerData));
             }
 
-          callback.setCallBack(Optional.empty());
+            callback.setCallBack(Optional.empty());
         });
 
-            var result = callback.getCallBack().filter(LoginPlayerData::isLoggedIn);
-            if (result.isPresent()) {
-                //SQL-Queries should run async
-                crazyLoginPlugin.getCrazyDatabase().saveWithoutPassword(result.get());
-                return true;
-            }
+        var result = callback.getCallBack().filter(LoginPlayerData::isLoggedIn);
+        if (result.isPresent()) {
+            //SQL-Queries should run async
+            crazyLoginPlugin.getCrazyDatabase().saveWithoutPassword(result.get());
+            return true;
+        }
 
-            return false;
+        return false;
     }
 
     @Override

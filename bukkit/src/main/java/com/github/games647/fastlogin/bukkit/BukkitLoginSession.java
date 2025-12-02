@@ -97,19 +97,11 @@ public class BukkitLoginSession extends LoginSession {
 
     /**
      * Sets the premium skin property which was retrieved by the session server
+     *
      * @param skinProperty premium skin
      */
     public synchronized void setSkinProperty(SkinProperty skinProperty) {
         this.skinProperty = skinProperty;
-    }
-
-    /**
-     * Sets whether the player has a premium (paid account) account and valid session
-     *
-     * @param verified whether the player has valid session
-     */
-    public synchronized void setVerifiedPremium(boolean verified) {
-        this.verified = verified;
     }
 
     /**
@@ -119,5 +111,14 @@ public class BukkitLoginSession extends LoginSession {
      */
     public synchronized boolean isVerifiedPremium() {
         return verified;
+    }
+
+    /**
+     * Sets whether the player has a premium (paid account) account and valid session
+     *
+     * @param verified whether the player has valid session
+     */
+    public synchronized void setVerifiedPremium(boolean verified) {
+        this.verified = verified;
     }
 }
