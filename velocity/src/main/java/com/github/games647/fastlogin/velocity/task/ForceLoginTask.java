@@ -121,6 +121,8 @@ public class ForceLoginTask
         UUID proxyId = core.getPlugin().getProxyId();
         ChannelMessage loginMessage = new LoginActionMessage(type, player.getUsername(), proxyId);
         core.getPlugin().sendPluginMessage(server, loginMessage);
+        ChannelMessage loginMessage2 = new LoginActionMessage(Type.LOGIN, player.getUsername(), proxyId);
+        core.getPlugin().sendPluginMessage(server, loginMessage2);
     }
 
     @Override

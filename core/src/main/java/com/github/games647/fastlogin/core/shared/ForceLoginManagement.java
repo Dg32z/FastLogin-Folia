@@ -58,22 +58,31 @@ public abstract class ForceLoginManagement<P extends C, C, L extends LoginSessio
         SQLStorage storage = core.getStorage();
         StoredProfile playerProfile = session.getProfile();
         try {
+            System.out.println("online= "+  isOnlineMode());
             if (isOnlineMode()) {
                 //premium player
                 AuthPlugin<P> authPlugin = core.getAuthPluginHook();
                 if (authPlugin == null) {
                     // maybe only bungeecord plugin
                     onForceActionSuccess(session);
+                    System.out.println("Nulled ");
                 } else {
+                    System.out.println("AuthPlugin not nulled");
                     boolean success = true;
                     String playerName = getName(player);
                     if (core.getConfig().get("autoLogin", true)) {
+                        System.out.println("a1= " + session.needsRegistration() + " | " + authPlugin.isRegistered(playerName));
                         if (session.needsRegistration()
                                 || (core.getConfig().get("auto-register-unknown", false)
                                 && !authPlugin.isRegistered(playerName))) {
                             success = forceRegister(player);
-                        } else if (!callFastLoginAutoLoginEvent(session, playerProfile).isCancelled()) {
-                            success = forceLogin(player);
+                        } else {
+                            System.out.println(!callFastLoginAutoLoginEvent(session, playerProfile).isCancelled() + " cancel?");
+                            if (!callFastLoginAutoLoginEvent(session, playerProfile).isCancelled()) {
+                                success = forceLogin(player);
+                            } else {
+                                System.out.println("cancel");
+                            }
                         }
                     }
 

@@ -123,21 +123,6 @@ public class FastLoginBukkit extends JavaPlugin implements PlatformPlugin<Comman
                 return;
             }
 
-            AntiBotService antiBotService = core.getAntiBotService();
-            if (pluginManager.isPluginEnabled("ProtocolSupport")) {
-                pluginManager.registerEvents(new ProtocolSupportListener(this, antiBotService), this);
-            } else if (pluginManager.isPluginEnabled("ProtocolLib")) {
-                ProtocolLibListener.register(this, antiBotService, core.getConfig().getBoolean("verifyClientKeys"));
-
-                //if server is using paper - we need to set the skin at pre login anyway, so no need for this listener
-                if (!isPaper() && getConfig().getBoolean("forwardSkin")) {
-                    pluginManager.registerEvents(new SkinApplyListener(this), this);
-                }
-            } else {
-                logger.warn("Either ProtocolLib or ProtocolSupport have to be installed if you don't use BungeeCord");
-                setEnabled(false);
-                return;
-            }
         }
 
         //delay dependency setup because we load the plugin very early where plugins are initialized yet
@@ -156,6 +141,7 @@ public class FastLoginBukkit extends JavaPlugin implements PlatformPlugin<Comman
             premiumPlaceholder = new PremiumPlaceholder(this);
             premiumPlaceholder.register();
         }
+        markInitialized();
     }
 
     private void registerCommands() {
